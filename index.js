@@ -1,6 +1,6 @@
 const STORE = {
     score: 0,
-    index: 0,
+    index: -1,
 }
 
 const QUESTIONS = [
@@ -54,109 +54,111 @@ function incrementScore() {
     STORE.score += 1;
 }
 
-function renderScore() {
-    $('#js-score').text(STORE.score);
-}
-
-function renderEnd() {
-    const grade = (STORE.score / 8) * 100;
-    $('.js-quiz-form').hide();
-    $('.js-end-page').show();
-    $('.js-result').text(`You scored ${grade}% on the quiz!`);
+function resetStore() {
+    STORE.index = 0;
+    STORE.score = 0;
 }
 
 function renderQuestionNumber() {
     $('#js-question-number').text(STORE.index + 1);
 }
 
+function renderScore() {
+    $('#js-score').text(STORE.score);
+}
+
 function renderQuestion() {
     const question = QUESTIONS[STORE.index].question;
-    $('.js-question').text(question);
+    const choices = QUESTIONS[STORE.index].choices;
+    const choiceList = choices.map(generateChoice).join("");
+
+    $('#js-quiz-form').empty();
+    $('#js-quiz-form')
+        .append(`<h1>${question}</h1>`)
+        .append(choiceList)
+        .append(`<button type="submit">Submit</button>`);
 }
 
 function generateChoice(choice, index) {
-    return `<input type="radio" value=${index} name="choice"><label for="choice-${index}">${choice}</label>`
+    return `<input type="radio" value=${index} name="choice" required><label for="choice-${index}">${choice}</label>`
 }
 
-function renderChoices() {
-    const choices = QUESTIONS[STORE.index].choices;
-    const choiceList = choices.map(generateChoice).join("");
-    $('.js-choices').empty();
-    $('.js-choices').append(choiceList);
+function renderStart() {
+    renderQuestionNumber();
+    renderScore();
+    $('#js-quiz-form').empty();
+    $('#js-result')
+        .append(`<h1>Are you ready to test your Chemistry knowledge?</h1>`)
+        .append(`<button class="next-button">Start Quiz!</button>`)
 }
 
 function gradeQuestion() {
     const selected = $("input[name='choice']:checked").val();
     const answer = QUESTIONS[STORE.index].answer;
-    if(selected == answer) {
-        incrementScore();
-        $('.js-feedback-text').text('Correct!');
-    } else {
-        const correctAnswer = QUESTIONS[STORE.index].choices[answer];
-        $('.js-feedback-text').text(`Incorrect, the answer is ${correctAnswer}`);
-    }
+    if (selected == answer) STORE.score += 1;
 }
 
-function resetQuiz() {
-    STORE.score = 0;
-    STORE.index = 0;
-    render();
-    $('.js-quiz-form').show();
-    $('.js-end-page').hide();
+function renderResult() {
+    const selected = $("input[name='choice']:checked").val();
+    const answer = QUESTIONS[STORE.index].answer;
+    const answerText = QUESTIONS[STORE.index].choices[answer];
+    const feedback = selected == answer ? 'Correct!' : `Incorrect, the answer is ${answerText}`;
+
+    $('#js-quiz-form').empty();
+    $('#js-result')
+        .append(`<h1>${feedback}</h1>`)
+        .append(`<button class="next-button">Next Question</button>`)
 }
 
-function render() {
-    renderScore();
-    renderQuestionNumber();
-    renderQuestion();
-    renderChoices();
+function renderEnd() {
+    const score = (STORE.score / QUESTIONS.length) * 100;
+
+    $('#js-result').empty();
+    $('#js-result')
+        .append(`<h1>You scored ${score}% on this quiz!</h1>`)
+        .append(`<button id="reset-button">Try Again!</button>`)
 }
 
-function submitListener() {
-    $('.js-quiz-form').submit(function(event) {
+function handleReset() {
+    $('#js-result').on('click', '#reset-button', function(event) {
         event.preventDefault();
-        gradeQuestion();
-        $('.js-quiz-form').hide();
-        $('.js-feedback').show();
-        $('.js-result').hide();
-        $('.js-start').hide();
-    }); 
+        $('#js-result').empty();
+        resetStore();
+        renderQuestion();
+        renderQuestionNumber();
+        renderScore();
+    });
 }
 
-function nextListener() {
-    $('.next-button').click(function(event) {
-        console.log('clicked');
+function handleNext() {
+    $('#js-result').on('click', '.next-button', function(event) {
         event.preventDefault();
-        $('.js-quiz-form').show();
-        $('.js-feedback').hide();
-        $('.js-result').hide();
-        $('.js-start').hide();
-
+        $('#js-result').empty();
         incrementIndex();
+        
         if (STORE.index > QUESTIONS.length - 1) {
             renderEnd();
         } else {
-            render();
+            renderQuestionNumber();
+            renderQuestion();
         }
     })
 }
 
-function resetListener() {
-    $('#reset-button').click(function(event) {
+function handleSubmit() {
+    $('#js-quiz-form').submit(function(event) {
         event.preventDefault();
-        resetQuiz();
-        $('.js-quiz-form').show();
-        $('.js-feedback').hide();
-        $('.js-result').hide();
-        $('.js-start').hide();
+        gradeQuestion();
+        renderScore();
+        renderResult();
     })
 }
 
 function mainApp() {
-    render();
-    submitListener();
-    nextListener();
-    resetListener();
-};
+    renderStart();
+    handleNext();
+    handleSubmit();
+    handleReset();
+}
 
 $(mainApp);
