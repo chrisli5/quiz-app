@@ -3,22 +3,24 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Coding Quiz</title>
-        <meta name="description" content="Test your JS coding knowledge">
+        <title>Chem Quiz</title>
+        <meta name="description" content="Test your chemistry knowledge">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <header>
-            <span>Question: <span id="js-question-number"></span></span>
-            <span>Score: <span id="js-score"></span></span>
+            <ul>
+                <li>Question: <span id="js-question-number"></span></li>
+                <li>Score: <span id="js-score"></span></li>
+            </ul>
         </header>
-        <form id="js-quiz-form"></form>
-        <div id="js-result"></div>
-        <script
-  src="https://code.jquery.com/jquery-3.4.0.min.js"
-  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
-  crossorigin="anonymous"></script>
+        <section id="main">
+            <form id="js-quiz-form"></form>
+            <div id="js-result"></div>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>
 </html>

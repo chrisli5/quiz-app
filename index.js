@@ -74,13 +74,13 @@ function renderQuestion() {
 
     $('#js-quiz-form').empty();
     $('#js-quiz-form')
-        .append(`<h1>${question}</h1>`)
+        .append(`<h2>${question}</h2>`)
         .append(choiceList)
         .append(`<button type="submit">Submit</button>`);
 }
 
 function generateChoice(choice, index) {
-    return `<input type="radio" value=${index} name="choice" required><label for="choice-${index}">${choice}</label>`
+    return `<label for="choice-${index}"><input type="radio" value=${index} name="choice" required><span>${choice}</span></label>`
 }
 
 function renderStart() {
