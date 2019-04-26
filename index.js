@@ -60,7 +60,7 @@ function resetStore() {
 }
 
 function renderQuestionNumber() {
-    $('#js-question-number').text(STORE.index + 1);
+    $('#js-question-number').text(`${STORE.index + 1} / ${QUESTIONS.length}`);
 }
 
 function renderScore() {
