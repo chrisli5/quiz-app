@@ -6,10 +6,34 @@
         <title>Coding Quiz</title>
         <meta name="description" content="Test your JS coding knowledge">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
-        <script src="//code.jquery.com/jquery.min.js"></script>
+        <header>
+            <span>Question: <span id="js-question-number"></span></span>
+            <span>Score: <span id="js-score"></span></span>
+        </header>
+        <form class="js-quiz-form" hidden>
+            <h1 class="js-question"></h1>
+            <div class="js-choices"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="js-feedback" hidden>
+            <h1 class="js-feedback-text"></h1>
+            <button class="next-button">Next Question</button>
+        </div>
+        <div class="js-result" hidden>
+            <h1 class="js-result-text"></h1>
+            <button id="reset-button">Try Again!</button>
+        </div>
+        <div class="js-start">
+            <h1 class="js-start-text"></h1>
+            <button class="next-button">Start Quiz!</button>
+        </div>
+        <script
+  src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+  crossorigin="anonymous"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>
 </html>
