@@ -88,7 +88,7 @@ function renderStart() {
     renderScore();
     $('#js-quiz-form').empty();
     $('#js-result')
-        .append(`<h1>Are you ready to test your Chemistry knowledge?</h1>`)
+        .append(`<h1>Are you ready to test your chemistry knowledge?</h1>`)
         .append(`<button class="next-button">Start Quiz!</button>`)
 }
 
